@@ -1,27 +1,26 @@
 # 🤖 Machine Learning Regression Projects
 
-This repository contains two end-to-end **Machine Learning Regression Projects**:
-1. 🚗 **Car Price Prediction using Gradient Descent Regression**
+This repository contains two complete **Machine Learning Regression Projects**:
+1. 🚗 **Car Price Prediction using Gradient Boosting Regressor**
 2. 🏠 **House Price Prediction using Random Forest Regressor**
 
-Both projects include complete workflows — from data preprocessing to model deployment — built with **Python**, **Scikit-Learn**, and **Flask/Streamlit**.
+Each project explores multiple regression techniques, applies feature scaling and encoding, and includes a web interface built using **Streamlit** or **Flask**.
 
 ---
 
-## 🚗 Car Price Prediction using Gradient Descent Regression
+# 🚗 Car Price Prediction using Gradient Boosting Regressor
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/ML-Regression-orange)
+![Scikit-Learn](https://img.shields.io/badge/Model-Gradient%20Boosting-green)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-### 📘 Overview
-This project predicts the **selling price of a used car** based on multiple features like fuel type, transmission, mileage, and manufacturing year.  
-A **Linear Regression model trained using Gradient Descent** was implemented to minimize prediction error.  
-Feature scaling and categorical encoding were applied to enhance model performance.
+## 📘 Overview
+This project predicts the **selling price of used cars** based on parameters such as year, mileage, fuel type, and transmission.  
+The data was preprocessed with encoding and scaling, and several regression algorithms were evaluated to find the best-performing model.
 
 ---
 
-### 📊 Dataset
+## 📊 Dataset
 Dataset file: [`car data (2).csv`](car_price/car%20data%20(2).csv)
 
 | Feature | Description |
@@ -29,66 +28,70 @@ Dataset file: [`car data (2).csv`](car_price/car%20data%20(2).csv)
 | Car_Name | Brand/Model of the car |
 | Year | Manufacturing year |
 | Present_Price | Current ex-showroom price |
-| Kms_Driven | Distance covered by the car |
+| Kms_Driven | Distance driven |
 | Fuel_Type | Type of fuel (Petrol/Diesel/CNG) |
 | Seller_Type | Dealer or Individual |
 | Transmission | Manual or Automatic |
 | Owner | Number of previous owners |
-| Selling_Price | Target variable (Predicted price) |
+| Selling_Price | Target variable (predicted price) |
 
 ---
 
-### ⚙️ Technologies Used
+## ⚙️ Technologies Used
 - Python 🐍  
-- Pandas, NumPy – Data manipulation  
+- Pandas, NumPy – Data preprocessing  
 - Matplotlib, Seaborn – Visualization  
-- Scikit-Learn – Regression modeling  
-- Streamlit – Web app interface  
-- Pickle – Model serialization  
+- Scikit-Learn – Model development and evaluation  
+- Streamlit – Interactive user interface  
+- Pickle – Model persistence  
 
 ---
 
-### 🧠 Model Building
-**Algorithm Used:**  
-➡️ **Linear Regression (trained using Gradient Descent Optimizer)**
+## 🧠 Model Development
+The following regression models were implemented and tested:
+- Linear Regression  
+- Polynomial Regression  
+- Support Vector Regressor (SVR)  
+- Decision Tree Regressor  
+- Random Forest Regressor  
+- AdaBoost Regressor  
+- **Gradient Boosting Regressor** ✅ *(Selected Model)*
 
-**Steps Applied:**
-1. Handled missing data and outliers  
-2. Label-encoded categorical columns (`Fuel_Type`, `Transmission`)  
-3. Scaled numerical features using `StandardScaler`  
-4. Trained Gradient Descent-based Linear Regression model  
-5. Saved model and encoders as `.pkl` files for deployment  
+### Data Processing Steps
+1. Encoded categorical features (`Fuel_Type`, `Transmission`)  
+2. Scaled numerical attributes using `StandardScaler`  
+3. Split data into train and test sets  
+4. Trained and compared all models  
+5. Saved the final model as `model.pkl`  
 
 ---
 
-### 📈 Results
-
-✅ **Final Model:** Gradient Descent Regression  
-⚙️ Balanced between interpretability and accuracy  
+## 📈 Results
+After evaluating all models, **Gradient Boosting Regressor** produced the most accurate results with an **R² score of approximately 0.95** on the test data.  
+The model effectively reduced error variance and generalized well across unseen samples.
 
 ---
 
-### 🖥️ Web App Interface
+## 🖥️ Web App Interface
 <img src="car_price/static/images/car_ui.png" width="700">
 
-Built with **Streamlit**, this interactive app allows users to input car details and view the estimated resale value instantly.
+The Streamlit app allows users to enter car details (fuel type, transmission, year, etc.) and view real-time price predictions.
 
 ---
 
-## 🏠 House Price Prediction using Random Forest Regressor
+# 🏠 House Price Prediction using Random Forest Regressor
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/ML-Regression-orange)
+![Scikit-Learn](https://img.shields.io/badge/Model-Random%20Forest-green)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-### 📘 Overview
-This project predicts the **price of a house** based on various socio-economic and environmental factors.  
-A **Random Forest Regressor** model was used to capture non-linear relationships between features and the target variable.  
-The model was trained using the **Boston Housing Dataset**.
+## 📘 Overview
+This project predicts **house prices** using features like the average number of rooms, location, and tax rate from the **Boston Housing dataset**.  
+Multiple regression algorithms were tested, and the **Random Forest Regressor** was selected for its excellent predictive power and robustness.
 
 ---
 
-### 📊 Dataset
+## 📊 Dataset
 Dataset file: [`BostonHousing.csv`](House_price/BostonHousing.csv)
 
 | Feature | Description |
@@ -96,53 +99,59 @@ Dataset file: [`BostonHousing.csv`](House_price/BostonHousing.csv)
 | CRIM | Per capita crime rate by town |
 | ZN | Residential land zoned for large lots |
 | INDUS | Non-retail business acres per town |
-| CHAS | Charles River dummy variable (1 = bounds river) |
+| CHAS | River adjacency indicator |
 | NOX | Nitric oxide concentration |
 | RM | Average number of rooms per dwelling |
-| AGE | Proportion of old owner-occupied units |
+| AGE | Age of owner-occupied units |
 | DIS | Distance to employment centers |
-| RAD | Accessibility to radial highways |
-| TAX | Property-tax rate |
-| PTRATIO | Pupil-teacher ratio |
+| RAD | Highway accessibility index |
+| TAX | Property tax rate per $10,000 |
+| PTRATIO | Student-teacher ratio |
 | B | Proportion of Black residents |
-| LSTAT | % lower status of the population |
-| MEDV | Target variable – Median home value |
+| LSTAT | % of lower-income population |
+| MEDV | Target variable – Median value of homes |
 
 ---
 
-### ⚙️ Technologies Used
+## ⚙️ Technologies Used
 - Python 🐍  
-- Pandas, NumPy – Data preprocessing  
+- Pandas, NumPy – Data handling  
 - Matplotlib, Seaborn – Visualization  
-- Scikit-Learn – Regression & Evaluation  
-- Flask – Web application deployment  
-- Pickle – Model persistence  
+- Scikit-Learn – Modeling and evaluation  
+- Flask – Web interface deployment  
+- Pickle – Model serialization  
 
 ---
 
-### 🧠 Model Building
-**Algorithm Used:**  
-➡️ **Random Forest Regressor (Ensemble Learning)**
+## 🧠 Model Development
+Models evaluated:
+- Linear Regression  
+- Polynomial Regression  
+- Support Vector Regressor (SVR)  
+- Decision Tree Regressor  
+- **Random Forest Regressor** ✅ *(Selected Model)*  
+- AdaBoost Regressor  
+- Gradient Boosting Regressor  
 
-**Workflow Steps:**
-1. Loaded and explored Boston Housing data  
-2. Scaled features using `StandardScaler`  
-3. Split dataset into training and test sets  
-4. Trained multiple models (Linear Regression, Decision Tree, Random Forest)  
-5. Selected Random Forest as the final model  
-6. Deployed using Flask web framework  
+### Workflow
+1. Standardized numerical variables using `StandardScaler`  
+2. Split dataset into training and test sets  
+3. Trained all regression models  
+4. Compared R², MAE, and RMSE scores  
+5. Deployed the best model using Flask  
 
 ---
 
-### 📈 Results
- **Random Forest Regressor**  ✅ Final selected model 
+## 📈 Results
+The **Random Forest Regressor** achieved an **R² score of approximately 0.84** on the test data, outperforming all other models.  
+It showed excellent prediction consistency and minimized overfitting compared to single-tree models.
 
 ---
 
-### 🖥️ Web App Interface
+## 🖥️ Web App Interface
 <img src="House_price/static/images/house_ui.png" width="700">
-<img src="House_price/static/images/house_result.png" width="700">
-
-Flask web interface allows users to input feature values and view predicted house prices instantly.
 
 
+The Flask web application accepts input parameters (e.g., average rooms, tax rate, and pollution level) and outputs predicted house prices.
+
+---
