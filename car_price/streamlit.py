@@ -1,60 +1,71 @@
 import streamlit as st
-import pickle 
 import numpy as np
+import pandas as pd
+import pickle
+from datetime import datetime
 
+# ------------------------------
+# Load Saved Files
+# ------------------------------
+model = pickle.load(open("model.pkl", "rb"))
+le_fuel = pickle.load(open("Fuel_Type.pkl", "rb"))
+le_trans = pickle.load(open("Transmission.pkl", "rb"))
+scaler = pickle.load(open("scaling.pkl", "rb"))
 
-#load trained model and encoders
+# ------------------------------
+# App Title
+# ------------------------------
+st.set_page_config(page_title="Car Price Predictor", page_icon="🚗", layout="centered")
+st.title("🚗 Car Price Prediction App")
+st.markdown("Predict the **selling price** of your car based on its features.")
 
-model = pickle.load(open('model.pkl', 'rb'))
-Fuel_Type_en = pickle.load(open('Fuel_Type.pkl', 'rb'))
-Transmission_en = pickle.load(open('Transmission.pkl', 'rb'))
-scaler = pickle.load(open('scaling.pkl', 'rb'))
+st.write("---")
 
-
-st.set_page_config(page_title="Car Price Prediction")
-
-st.title("Car Price Prediction App")
-st.write("Enter the car details below to estimate its selling price:")
-
-# --- Input fields ---
+# ------------------------------
+# Two Columns for Feature Inputs
+# ------------------------------
 col1, col2 = st.columns(2)
 
 with col1:
-    Car_Age = st.text_input("Enter the Age of Car", "5")
-    Present_Price = st.text_input("Present Price (in lakhs)", "5.0")
-    Kms_Driven = st.text_input("Kilometers Driven", "30000")
+    present_price = st.number_input("Present Price (in Lakhs)", min_value=0.1, max_value=50.0, step=0.1)
+    kms_driven = st.number_input("Kms Driven", min_value=100, max_value=200000, step=100)
+    fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "CNG"])
+    owner = st.selectbox("Number of Previous Owners", [0, 1, 2, 3])
 
 with col2:
-    Fuel_Type = st.selectbox("Fuel Type", ("Petrol", "Diesel", "CNG"))
-    Transmission = st.selectbox("Transmission", ("Manual", "Automatic"))
-    Owner = st.text_input("Number of Previous Owners", "0")
-    Seller_Type_Individual = st.selectbox("Seller Type", ("Dealer", "Individual"))
+    seller_type = st.selectbox("Seller Type", ["Dealer", "Individual"])
+    transmission = st.selectbox("Transmission", ["Manual", "Automatic"])
+    year = st.slider("Year of Purchase", 2000, datetime.now().year, 2015)
+    car_age = datetime.now().year - year
 
+# ------------------------------
+# Predict Button
+# ------------------------------
+st.write("---")
+if st.button("🔍 Predict Selling Price"):
 
+    # Prepare Input Data
+    input_data = pd.DataFrame({
+        "Present_Price": [present_price],
+        "Kms_Driven": [kms_driven],
+        "Fuel_Type": [le_fuel.transform([fuel_type])[0]],
+        "Seller_Type_Individual": [1 if seller_type == "Individual" else 0],
+        "Transmission": [le_trans.transform([transmission])[0]],
+        "Owner": [owner],
+        "Car_Age": [car_age]
+    })
 
-try:
-    Car_Age = int(Car_Age)
-    Present_Price = float(Present_Price)
-    Kms_Driven = float(Kms_Driven)
-    Owner = int(Owner)
+    # Align with training columns
+    expected_cols = list(scaler.feature_names_in_)
+    for col in expected_cols:
+        if col not in input_data.columns:
+            input_data[col] = 0
+    input_data = input_data[expected_cols]
 
-    # Encode categorical variables
-    Fuel_Type_val = Fuel_Type_en.transform([Fuel_Type])[0]
-    Transmission_val = Transmission_en.transform([Transmission])[0]
-    Seller_Type_Individual_val = 1 if Seller_Type_Individual == "Individual" else 0
+    # Scale and Predict
+    input_scaled = scaler.transform(input_data)
+    prediction = model.predict(input_scaled)[0]
 
-     # Prepare input data
-    details = [Car_Age, Present_Price, Kms_Driven, Fuel_Type_val, Transmission_val, Owner, Seller_Type_Individual_val]
-    data_out = np.array(details).reshape(1, -1)
-    data_scaled = scaler.transform(data_out)
+    st.success(f"💰 Estimated Selling Price: ₹ {prediction:.2f} Lakhs")
 
-    if st.button("Predict Car Price"):
-        prediction = model.predict(data_scaled)[0]
-        st.success(f"Estimated Car Price:{round(prediction, 2)}")
-
-
-except ValueError:
-    st.warning("Please enter valid numeric values for Year, Price, KM Driven, and Owner.")
-
-
-    
+# ---------------------------
