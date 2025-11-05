@@ -73,7 +73,7 @@ The model effectively reduced error variance and generalized well across unseen 
 ---
 
 ## 🖥️ Web App Interface
-<img src="car_price/static/images/car_ui.png" width="700">
+<img src="car_price/images/car_ui.png" width="700">
 
 The Streamlit app allows users to enter car details (fuel type, transmission, year, etc.) and view real-time price predictions.
 
