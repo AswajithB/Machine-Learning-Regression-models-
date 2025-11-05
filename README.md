@@ -59,7 +59,7 @@ The following regression models were implemented and tested:
 
 ### Data Processing Steps
 1. Encoded categorical features (`Fuel_Type`, `Transmission`)  
-2. Scaled numerical attributes using `StandardScaler`  
+2. Scaled numerical attributes using `MinMaxScaler`  
 3. Split data into train and test sets  
 4. Trained and compared all models  
 5. Saved the final model as `model.pkl`  
@@ -134,7 +134,7 @@ Models evaluated:
 - Gradient Boosting Regressor  
 
 ### Workflow
-1. Standardized numerical variables using `StandardScaler`  
+1. Standardized numerical variables using `MinMaxScaler`  
 2. Split dataset into training and test sets  
 3. Trained all regression models  
 4. Compared R², MAE, and RMSE scores  
